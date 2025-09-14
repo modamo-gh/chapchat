@@ -1,9 +1,9 @@
 "use client";
 
-import { isValidISBN } from "@/lib/isbn";
+import ISBNSearch from "@/app/components/ISBNSearch";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
-import { CSSProperties, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 type Book = {
 	authors: string[];
@@ -15,10 +15,7 @@ type Book = {
 const BookPage = () => {
 	const params = useParams();
 
-	const router = useRouter();
-
 	const [book, setBook] = useState<Book | null>(null);
-	const [searchISBN, setSearchISBN] = useState("");
 
 	const isbn = params.isbn;
 
@@ -74,35 +71,7 @@ const BookPage = () => {
 	return (
 		<div className="bg-yellow-50 gap-4 grid grid-cols-10 grid-rows-10 h-screen items-center justify-center p-4 w-screen">
 			<div className="bg-[#87A96B] border-zinc-800 border-3 col-span-10 flex h-full items-center justify-center rounded-lg row-span-1">
-				<div className="flex gap-2 min-h-12 w-4/5">
-					<input
-						className="bg-yellow-50 border-zinc-800 border-3 flex-4 pl-4 rounded-lg text-zinc-800"
-						onChange={(e) => {
-							const value = e.target.value.replace(/\D/g, "");
-
-							setSearchISBN(value);
-						}}
-						maxLength={13}
-						placeholder="Enter an Search"
-						style={
-							{
-								"--placeholder-color": "rgba(39,39,42, 80%)"
-							} as CSSProperties
-						}
-						type="text"
-						value={searchISBN}
-					/>
-					<button
-						className="bg-yellow-50 border-3 flex-1 rounded-lg text-zinc-800"
-						onClick={async () => {
-							if (isValidISBN(searchISBN)) {
-								router.push(`/book/${searchISBN}`);
-							}
-						}}
-					>
-						Search
-					</button>
-				</div>
+				<ISBNSearch buttonColor="bg-yellow-50" />
 			</div>
 			<div className="col-span-10 gap-4 grid grid-cols-5 grid-rows-5 h-full row-span-8">
 				<div className="bg-[#87A96B] border-zinc-800 border-3 col-span-1 gap-2 grid grid-cols-1 grid-rows-5 p-2 rounded-lg row-span-5">
@@ -126,15 +95,17 @@ const BookPage = () => {
 					</div>
 				</div>
 				<div className="col-span-4 gap-2 grid grid-cols-4 grid-rows-4 rounded-lg row-span-5">
-					{book?.tableOfContents?.slice(0, 4).map((chapter, index) => (
-						<div
-							className="bg-[#87A96B] border-zinc-800 border-3 col-span-4 flex flex-col justify-around pl-4 rounded-lg row-span-1 text-zinc-800"
-							key={index}
-						>
-                            <p>Chapter {chapter.number}</p>
-                            <p>{chapter.title}</p>
-                        </div>
-					))}
+					{book?.tableOfContents
+						?.slice(0, 4)
+						.map((chapter, index) => (
+							<div
+								className="bg-[#87A96B] border-zinc-800 border-3 col-span-4 flex flex-col justify-around pl-4 rounded-lg row-span-1 text-zinc-800"
+								key={index}
+							>
+								<p>Chapter {chapter.number}</p>
+								<p>{chapter.title}</p>
+							</div>
+						))}
 				</div>
 			</div>
 			<div className="bg-[#87A96B] border-zinc-800 border-3 col-span-10 h-full rounded-lg row-span-1"></div>

@@ -2,6 +2,7 @@ import Footer from "@/app/components/Footer";
 import Header from "@/app/components/Header";
 import { faker } from "@faker-js/faker";
 import Image from "next/image";
+import { CSSProperties } from "react";
 
 const ChapterPage = () => {
 	const fakeComments = Array.from({ length: 10 }).map(() => ({
@@ -24,19 +25,27 @@ const ChapterPage = () => {
 				<div className="bg-[#87A96B] border-zinc-800 border-3 col-span-1 gap-2 grid grid-cols-5 grid-rows-1 p-2 rounded-lg row-span-5"></div>
 				<div className="col-span-4 gap-4 grid grid-cols-4 grid-rows-4 rounded-lg row-span-5">
 					<div className="bg-[#87A96B] border-zinc-800 border-3 col-span-5 gap-2 grid grid-cols-5 grid-row-1 p-2 rounded-lg row-span-1">
-						<textarea className="bg-yellow-50 border-zinc-800 border-3 col-span-4 row-span-1 rounded-lg overflow-y-auto p-4 resize-none text-wrap text-zinc-800" />
-						<button className="bg-yellow-50 border-3 flex-1 h-12 place-self-center self rounded-lg text-zinc-800 w-2/5">
+						<textarea
+							className="bg-yellow-50 border-zinc-800 border-3 col-span-4 row-span-1 rounded-lg overflow-y-auto p-4 resize-none text-wrap text-zinc-800"
+							placeholder="Join the discussion"
+							style={
+								{
+									"--placeholder-color": "rgba(39,39,42, 80%)"
+								} as CSSProperties
+							}
+						/>
+						<button className="bg-yellow-50 border-3 flex-1 rounded-lg text-zinc-800">
 							Submit
 						</button>
 					</div>
-					<div className="bg-[#87A96B] border-zinc-800 border-3 col-span-5 flex flex-col gap-4 overflow-y-scroll p-4 rounded-lg row-span-4 ">
+					<div className="bg-[#87A96B] border-zinc-800 border-3 col-span-5 flex flex-col gap-4 overflow-y-scroll p-4 rounded-lg row-span-4">
 						{fakeComments.map((fakeComment, fakeCommentIndex) => (
 							<div
 								className="flex gap-2 text-zinc-800"
 								key={fakeCommentIndex}
 								style={getIndent(fakeComment.parentIndex)}
 							>
-								<div className="aspect-square flex h-12 rounded-lg overflow-hidden min-w-12">
+								<div className="aspect-square border-zinc-800 border-3 flex h-12 rounded-lg overflow-hidden min-w-12">
 									<Image
 										alt=""
 										className="aspect-square"

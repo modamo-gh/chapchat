@@ -11,6 +11,9 @@ const Home = () => {
 				<input
 					className="border-zinc-800 border-3 flex-4 pl-4 rounded-lg text-zinc-800"
 					onChange={(e) => setISBN(e.target.value)}
+					maxLength={13}
+					minLength={10}
+					pattern="\d"
 					placeholder="Enter an ISBN"
 					style={
 						{

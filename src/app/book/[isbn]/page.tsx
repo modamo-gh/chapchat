@@ -4,7 +4,7 @@ import Footer from "@/app/components/Footer";
 import Header from "@/app/components/Header";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Book = {
 	authors: string[];
@@ -16,9 +16,18 @@ type Book = {
 const BookPage = () => {
 	const params = useParams();
 
+	const ref = useRef<HTMLDivElement | null>(null);
+
 	const router = useRouter();
 
 	const [book, setBook] = useState<Book | null>(null);
+	const [height, setHeight] = useState(0);
+
+	useEffect(() => {
+		if (ref) {
+			setHeight(ref.current?.offsetHeight || 0);
+		}
+	}, [ref]);
 
 	const isbn = params.isbn;
 
@@ -96,23 +105,25 @@ const BookPage = () => {
 						<p>Authors: {book?.authors.join(", ")}</p>
 					</div>
 				</div>
-				<div className="col-span-4 gap-2 grid grid-cols-4 grid-rows-4 rounded-lg row-span-5">
-					{book?.tableOfContents
-						?.slice(0, 4)
-						.map((chapter, index) => (
-							<div
-								className="bg-[#87A96B] border-zinc-800 border-3 col-span-4 flex flex-col justify-around pl-4 rounded-lg row-span-1 text-zinc-800"
-								key={index}
-								onClick={() =>
-									router.push(
-										`./${isbn}/chapter/${chapter.number}`
-									)
-								}
-							>
-								<p>Chapter {chapter.number}</p>
-								<p>{chapter.title}</p>
-							</div>
-						))}
+				<div
+					className="col-span-4 flex flex-col gap-2 overflow-y-auto rounded-lg row-span-5"
+					ref={ref}
+				>
+					{book?.tableOfContents?.map((chapter, index) => (
+						<div
+							className="bg-[#87A96B] border-zinc-800 border-3 flex flex-col justify-around pl-4 rounded-lg text-zinc-800"
+							key={index}
+							onClick={() =>
+								router.push(
+									`./${isbn}/chapter/${chapter.number}`
+								)
+							}
+							style={{ minHeight: `${height / 4}px` }}
+						>
+							<p>Chapter {chapter.number}</p>
+							<p>{chapter.title}</p>
+						</div>
+					))}
 				</div>
 			</div>
 			<Footer />

@@ -1,8 +1,11 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { CSSProperties, useState } from "react";
 
 const Home = () => {
+	const router = useRouter();
+
 	const [isbn, setISBN] = useState("");
 
 	return (
@@ -33,7 +36,7 @@ const Home = () => {
 						);
 						const data = await response.json();
 
-						console.log(data);
+						router.push(`/book/${isbn}`);
 					}}
 				>
 					Search

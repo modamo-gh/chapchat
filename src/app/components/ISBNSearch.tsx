@@ -1,3 +1,5 @@
+"use client";
+
 import { isValidISBN, normalizeISBN } from "@/lib/isbn";
 import { useRouter } from "next/navigation";
 import { CSSProperties, useState } from "react";

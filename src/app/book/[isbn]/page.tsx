@@ -1,6 +1,7 @@
 "use client";
 
-import ISBNSearch from "@/app/components/ISBNSearch";
+import Footer from "@/app/components/Footer";
+import Header from "@/app/components/Header";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -14,6 +15,8 @@ type Book = {
 
 const BookPage = () => {
 	const params = useParams();
+
+	const router = useRouter();
 
 	const [book, setBook] = useState<Book | null>(null);
 
@@ -47,18 +50,19 @@ const BookPage = () => {
 								"-S",
 								"-L"
 							) || "/pexels-jessbaileydesign-762687.jpg",
-						tableOfContents: data[
-							`ISBN:${isbn}`
-						].details.table_of_contents.map(
-							(chapter, index: number) => ({
-								number: index + 1,
-								title: chapter.title
-							})
-						),
-						title: data[`ISBN:${isbn}`].details.title
+						tableOfContents: [
+							{ number: 0, title: "General Discussion" },
+							...(data[
+								`ISBN:${isbn}`
+							].details?.table_of_contents?.map(
+								(chapter, index: number) => ({
+									number: index + 1,
+									title: chapter.title
+								})
+							) || [])
+						],
+						title: data[`ISBN:${isbn}`].details?.title || ""
 					} as Book;
-
-					console.log(b);
 
 					setBook(b);
 				}
@@ -70,9 +74,7 @@ const BookPage = () => {
 
 	return (
 		<div className="bg-yellow-50 gap-4 grid grid-cols-10 grid-rows-10 h-screen items-center justify-center p-4 w-screen">
-			<div className="bg-[#87A96B] border-zinc-800 border-3 col-span-10 flex h-full items-center justify-center rounded-lg row-span-1">
-				<ISBNSearch buttonColor="bg-yellow-50" />
-			</div>
+			<Header />
 			<div className="col-span-10 gap-4 grid grid-cols-5 grid-rows-5 h-full row-span-8">
 				<div className="bg-[#87A96B] border-zinc-800 border-3 col-span-1 gap-2 grid grid-cols-1 grid-rows-5 p-2 rounded-lg row-span-5">
 					<div className="border-zinc-800 border-3 flex col-span-1 items-center justify-center overflow-hidden rounded-lg row-span-2 ">
@@ -101,6 +103,11 @@ const BookPage = () => {
 							<div
 								className="bg-[#87A96B] border-zinc-800 border-3 col-span-4 flex flex-col justify-around pl-4 rounded-lg row-span-1 text-zinc-800"
 								key={index}
+								onClick={() =>
+									router.push(
+										`./${isbn}/chapter/${chapter.number}`
+									)
+								}
 							>
 								<p>Chapter {chapter.number}</p>
 								<p>{chapter.title}</p>
@@ -108,7 +115,7 @@ const BookPage = () => {
 						))}
 				</div>
 			</div>
-			<div className="bg-[#87A96B] border-zinc-800 border-3 col-span-10 h-full rounded-lg row-span-1"></div>
+			<Footer />
 		</div>
 	);
 };

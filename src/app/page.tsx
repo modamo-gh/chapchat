@@ -10,10 +10,12 @@ const Home = () => {
 			<div className="flex gap-2 min-h-12 w-4/5">
 				<input
 					className="border-zinc-800 border-3 flex-4 pl-4 rounded-lg text-zinc-800"
-					onChange={(e) => setISBN(e.target.value)}
+					onChange={(e) => {
+						const value = e.target.value.replace(/\D/g, "");
+
+						setISBN(value);
+					}}
 					maxLength={13}
-					minLength={10}
-					pattern="\d"
 					placeholder="Enter an ISBN"
 					style={
 						{

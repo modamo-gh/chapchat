@@ -9,10 +9,12 @@ export async function GET(request: NextRequest) {
 	}
 
 	const isValidISBN = (isbn: string) => {
-		const isTenDigits = /\d{10}/.test(isbn);
-		const isThirteenDigits = /\d{13}/.test(isbn);
+		const cleanedISBN = isbn.replace(/\D/g, "");
 
-		if (!isTenDigits || !isThirteenDigits) {
+		const isTenDigits = cleanedISBN.length === 10;
+		const isThirteenDigits = cleanedISBN.length === 13;
+
+		if (!isTenDigits && !isThirteenDigits) {
 			return false;
 		}
 

@@ -12,7 +12,7 @@ const Home = () => {
 		<div className="bg-yellow-50 flex h-screen items-center justify-center w-screen">
 			<div className="flex gap-2 min-h-12 w-4/5">
 				<input
-					className="border-zinc-800 border-3 flex-4 pl-4 rounded-lg text-zinc-800"
+					className="bg-yellow-50 border-zinc-800 border-3 flex-4 pl-4 rounded-lg text-zinc-800"
 					onChange={(e) => {
 						const value = e.target.value.replace(/\D/g, "");
 

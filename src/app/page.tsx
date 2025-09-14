@@ -22,7 +22,14 @@ const Home = () => {
 				/>
 				<button
 					className="bg-[#87A96B] border-3 flex-1 rounded-lg text-zinc-800"
-					onClick={() => console.log(isbn)}
+					onClick={async () => {
+						const response = await fetch(
+							`/api/openlibrary?isbn=${isbn}`
+						);
+						const data = await response.json();
+
+						console.log(data);
+					}}
 				>
 					Search
 				</button>

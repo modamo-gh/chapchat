@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 type Book = {
 	authors: string[];
 	coverURL: string;
+	description: string;
 	tableOfContents?: { number: number; title: string }[];
 	title: string;
 };
@@ -20,8 +21,13 @@ const BookPage = () => {
 	const router = useRouter();
 
 	const [book, setBook] = useState<Book | null>(null);
+	const [numberOfChatters, setNumberOfChatters] = useState(0);
 	const [height, setHeight] = useState(0);
 
+	useEffect(() => {
+		setNumberOfChatters(Math.floor(Math.random() * 75) + 25);
+	}, []);
+	
 	useEffect(() => {
 		if (ref) {
 			setHeight(ref.current?.offsetHeight || 0);
@@ -58,6 +64,9 @@ const BookPage = () => {
 								"-S",
 								"-L"
 							) || "/pexels-jessbaileydesign-762687.jpg",
+						description:
+							data[`ISBN:${isbn}`].details?.description?.value ||
+							"",
 						tableOfContents: [
 							{ number: 0, title: "General Discussion" },
 							{ number: 1, title: "Pre Discussion" },
@@ -99,10 +108,13 @@ const BookPage = () => {
 							: "none"
 					}}
 				>
-					<div className="absolute bg-linear-to-t from-black inset-0 to-transparent via-black/60" />
-					<div className="absolute bottom-0 flex flex-col h-1/4 inset-x-0 justify-around m-2 p-2 text-xl">
-						<p>{book?.title}</p>
-						<p>{book?.authors.join(", ")}</p>
+					<div className="absolute bg-gradient-to-t from-black from-25% inset-0" />
+					<div className="absolute bottom-0 flex flex-col h-1/4 inset-x-0 justify-around m-2 p-2">
+						<p className="text-2xl">{book?.title}</p>
+						<p className="">{`By: ${book?.authors.join(", ")}`}</p>
+						<p>Community Rating: 5/5</p>
+						<p>{`${numberOfChatters} chatters this week`}</p>
+						{/* <p>{book?.description}</p> */}
 					</div>
 				</div>
 				<div

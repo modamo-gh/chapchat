@@ -2,7 +2,6 @@
 
 import Footer from "@/app/components/Footer";
 import Header from "@/app/components/Header";
-import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
@@ -61,14 +60,21 @@ const BookPage = () => {
 							) || "/pexels-jessbaileydesign-762687.jpg",
 						tableOfContents: [
 							{ number: 0, title: "General Discussion" },
+							{ number: 1, title: "Pre Discussion" },
 							...(data[
 								`ISBN:${isbn}`
 							].details?.table_of_contents?.map(
 								(chapter, index: number) => ({
-									number: index + 1,
+									number: index + 2,
 									title: chapter.title
 								})
-							) || [])
+							) || []),
+							{
+								number:
+									(data[`ISBN:${isbn}`].details
+										?.table_of_contents?.length || 1) + 1,
+								title: "Post Discussion"
+							}
 						],
 						title: data[`ISBN:${isbn}`].details?.title || ""
 					} as Book;
@@ -84,40 +90,41 @@ const BookPage = () => {
 	return (
 		<div className="bg-yellow-50 gap-4 grid grid-cols-10 grid-rows-10 h-screen items-center justify-center p-4 w-screen">
 			<Header />
-			<div className="col-span-10 gap-4 grid grid-cols-5 grid-rows-5 h-full row-span-8">
-				<div className="bg-[#87A96B] border-zinc-800 border-3 col-span-1 gap-2 grid grid-cols-1 grid-rows-5 p-2 rounded-lg row-span-5">
-					<div className="border-zinc-800 border-3 flex col-span-1 items-center justify-center overflow-hidden rounded-lg row-span-2 ">
-						{book ? (
-							<Image
-								alt={""}
-								className="h-full object-cover w-full"
-								height={200}
-								priority
-								width={200}
-								src={book.coverURL}
-							/>
-						) : (
-							<p>Nada</p>
-						)}
-					</div>
-					<div className="flex flex-col col-span-1 items-center justify-center row-span-3 text-zinc-800">
-						<p>Title: {book?.title}</p>
-						<p>Authors: {book?.authors.join(", ")}</p>
+			<div className="col-span-10 gap-4 grid grid-cols-6 grid-rows-5 h-full row-span-8">
+				<div
+					className="bg-center bg-cover border-zinc-800 border-3 col-span-2 gap-2 grid grid-cols-1 grid-rows-5 p-2 relative rounded-lg row-span-5"
+					style={{
+						backgroundImage: book?.coverURL
+							? `url(${book?.coverURL})`
+							: "none"
+					}}
+				>
+					<div className="absolute bg-linear-to-t from-black inset-0 to-transparent via-black/60" />
+					<div className="absolute bottom-0 flex flex-col h-1/4 inset-x-0 justify-around m-2 p-2 text-xl">
+						<p>{book?.title}</p>
+						<p>{book?.authors.join(", ")}</p>
 					</div>
 				</div>
 				<div
-					className="col-span-4 flex flex-col gap-2 overflow-y-auto rounded-lg row-span-5"
+					className={`col-span-4 flex flex-col gap-2 overflow-y-auto ${
+						book?.tableOfContents?.length >= 4 && "pr-2"
+					} rounded-lg row-span-5`}
+					id="chapterContainer"
 					ref={ref}
 				>
 					{book?.tableOfContents?.map((chapter, index) => (
 						<div
-							className="bg-[#87A96B] border-zinc-800 border-3 flex flex-col justify-around pl-4 rounded-lg text-zinc-800"
+							className="bg-[#87A96B] border-zinc-800 border-3 flex flex-col hover:cursor-pointer justify-around pl-4 rounded-lg text-zinc-800"
 							key={index}
-							onClick={() =>
+							onClick={() => {
+								if (!isbn) {
+									return;
+								}
+
 								router.push(
 									`./${isbn}/chapter/${chapter.number}`
-								)
-							}
+								);
+							}}
 							style={{ minHeight: `${height / 4}px` }}
 						>
 							<p>Chapter {chapter.number}</p>

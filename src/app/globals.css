@@ -30,13 +30,13 @@ textarea::placeholder {
 	color: var(--placeholder-color);
 }
 
-::-webkit-scrollbar {
-	background-color: #87a96b;
+#chapterContainer::-webkit-scrollbar {
+	background-color: #FEFCE8;
 }
 
-::-webkit-scrollbar-thumb {
-	background-color: #fefce8;
-	border-color: #27272a;
+#chapterContainer::-webkit-scrollbar-thumb {
+	background-color: #87A96B;
+	border-color: #27272A;
 	border-radius: 8px;
 	border-style: solid;
 	border-width: 3px;

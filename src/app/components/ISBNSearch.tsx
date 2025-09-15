@@ -32,7 +32,7 @@ const ISBNSearch = ({ buttonColor }: { buttonColor: string }) => {
 				value={isbn}
 			/>
 			<button
-				className={`${buttonColor} border-3 flex-1 rounded-lg text-zinc-800`}
+				className={`border-zinc-800 border-3 ${buttonColor} ${isValidISBN(isbn) ? "hover:cursor-pointer" : "hover:cursor-not-allowed"} flex-1 rounded-lg text-zinc-800`}
 				onClick={async () => {
 					if (isValidISBN(isbn)) {
 						router.push(`/book/${normalizeISBN(isbn)}`);

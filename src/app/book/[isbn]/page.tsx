@@ -106,7 +106,7 @@ const BookPage = () => {
 			<div className="col-span-10 gap-4 grid grid-cols-6 grid-rows-5 h-full row-span-8">
 				<div
 					className={`${
-						isLoading && "animate-pulse bg-[]"
+						isLoading && "animate-pulse bg-[#87A96B]"
 					} bg-center bg-cover border-zinc-800 border-3 col-span-2 gap-2 grid grid-cols-1 grid-rows-5 p-2 relative rounded-lg row-span-5`}
 					style={{
 						backgroundImage:
@@ -142,31 +142,38 @@ const BookPage = () => {
 					id="chapterContainer"
 					ref={ref}
 				>
-					{!isLoading &&
-						book?.tableOfContents?.map((chapter, index) => (
-							<div
-								className={`${
-									isLoading && "animate-pulse"
-								} bg-[#87A96B] border-zinc-800 border-3 flex flex-col hover:cursor-pointer justify-evenly pl-4 rounded-lg text-zinc-800 text-lg`}
-								key={index}
-								onClick={() => {
-									if (!isbn) {
-										return;
-									}
+					{!isLoading
+						? book?.tableOfContents?.map((chapter, index) => (
+								<div
+									className={`${
+										isLoading && "animate-pulse"
+									} bg-[#87A96B] border-zinc-800 border-3 flex flex-col hover:cursor-pointer justify-evenly pl-4 rounded-lg text-zinc-800 text-lg`}
+									key={index}
+									onClick={() => {
+										if (!isbn) {
+											return;
+										}
 
-									router.push(
-										`./${isbn}/chapter/${chapter.number}`
-									);
-								}}
-								style={{ minHeight: `${height / 4}px` }}
-							>
-								{chapter.number && (
-									<p>Chapter {chapter.number}</p>
-								)}
-								<p>{chapter.title}</p>
-								<p className="text-base">10 comments</p>
-							</div>
-						))}
+										router.push(
+											`./${isbn}/chapter/${chapter.number}`
+										);
+									}}
+									style={{ minHeight: `${height / 4}px` }}
+								>
+									{chapter.number && (
+										<p>Chapter {chapter.number}</p>
+									)}
+									<p>{chapter.title}</p>
+									<p className="text-base">10 comments</p>
+								</div>
+						  ))
+						: Array.from({ length: 3 }).map((_, index) => (
+								<div
+									className="animate-pulse bg-[#87A96B] border-zinc-800 border-3 rounded-lg"
+									key={index}
+									style={{ minHeight: `${height / 4}px` }}
+								/>
+						  ))}
 				</div>
 			</div>
 			<Footer />

@@ -117,7 +117,7 @@ const BookPage = () => {
 				>
 					{!isLoading && (
 						<>
-							<button className="absolute bg-[#87A96B] border-zinc-800 border-3 hover:cursor-pointer h-12 m-2 right-0 rounded-lg text-zinc-800 top-0 w-18 z-10">
+							<button className="absolute bg-[#87A96B] hover:bg-[#7B9A61] border-zinc-800 border-3 hover:cursor-pointer h-12 m-2 right-0 rounded-lg text-zinc-800 top-0 w-18 z-10">
 								Join
 							</button>
 							<div className="absolute bg-gradient-to-t from-black from-25% inset-0" />
@@ -147,7 +147,7 @@ const BookPage = () => {
 								<div
 									className={`${
 										isLoading && "animate-pulse"
-									} bg-[#87A96B] border-zinc-800 border-3 flex flex-col hover:cursor-pointer justify-evenly pl-4 rounded-lg text-zinc-800 text-lg`}
+									} bg-[#87A96B] hover:bg-[#7B9A61] border-zinc-800 border-3 flex flex-col hover:cursor-pointer justify-evenly pl-4 rounded-lg text-zinc-800 text-lg`}
 									key={index}
 									onClick={() => {
 										if (!isbn) {

@@ -47,7 +47,7 @@ const BookPage = () => {
 			try {
 				setIsLoading(true);
 
-				const response = await fetch(`/api/openlibrary?isbn=${isbn}`);
+				const response = await fetch(`/api/book?isbn=${isbn}`);
 
 				if (!response.ok) {
 					throw new Error("Failed to fetch book data");
@@ -56,40 +56,7 @@ const BookPage = () => {
 				const data = await response.json();
 
 				if (data) {
-					console.log(data);
-
-					const b = {
-						authors:
-							data[`ISBN:${isbn}`].details?.authors?.map(
-								(author) => author.name
-							) || [],
-						coverURL:
-							data[`ISBN:${isbn}`].thumbnail_url?.replace(
-								"-S",
-								"-L"
-							) || "/pexels-jessbaileydesign-762687.jpg",
-						description:
-							data[`ISBN:${isbn}`].details?.description?.value ||
-							"",
-						subtitle: data[`ISBN:${isbn}`].details?.subtitle,
-						tableOfContents: [
-							{ title: "Pre Discussion" },
-							...(data[
-								`ISBN:${isbn}`
-							].details?.table_of_contents?.map(
-								(chapter, index: number) => ({
-									number: index + 2,
-									title: chapter.title
-								})
-							) || []),
-							{
-								title: "Post Discussion"
-							}
-						],
-						title: data[`ISBN:${isbn}`].details?.title || ""
-					} as Book;
-
-					setBook(b);
+					setBook(data as Book);
 				}
 			} catch (error) {
 			} finally {
